@@ -1,4 +1,5 @@
 <h1> ChultMapkeeper </h1>
+<img src="https://github.com/arobinson410/ChultMapkeeper/blob/master/docs/ChultMapkeeper1.0.0-alpha.PNG" height="500" alt="Picture of the Program in Action"/>
 <h3> An unfficial tool for Dungeon Masters running the Tomb of Annihilation hex crawl. </h3>
 <p> As a new DM and avid programmer, I wanted to bring my game of Tomb of Annihilation into the 21st century and use visual aids dispalyed on a television. To my surprise, there was not a single mapping tool for the hex crawl, so I created my own.</p>
 <h2>Download Binaries</h2>
