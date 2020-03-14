@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,26 +8,36 @@ using System.Threading.Tasks;
 namespace ChultMapkeeper.ViewModel
 {
     [Serializable]
-    public class MainWindowVM
+    public class MainWindowVM: Interfaces.IMonitorWindowState, INotifyPropertyChanged
     {
-        private List<Hexagon> hexagons;
-        private PartyIndicator partyIndicator;
+        private MapState mapState;
 
-        public MainWindowVM()
+        [field: NonSerialized()]
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public MainWindowVM(MapState m)
         {
-            hexagons = new List<Hexagon>();
-            partyIndicator = new PartyIndicator();
+            Static.WindowStates.WindowStateChanged += OnWindowStateChanged;
+            mapState = m;
+        }
+
+        public MapState MapState
+        {
+            get
+            {
+                return mapState;
+            }
         }
 
         public List<Hexagon> HexagonList
         {
             set
             {
-                hexagons = value;
+                mapState.Hexagons = value;
             }
             get
             {
-                return hexagons;
+                return mapState.Hexagons;
             }
         }
 
@@ -34,12 +45,29 @@ namespace ChultMapkeeper.ViewModel
         {
             set
             {
-                partyIndicator = value;
+                mapState.PartyIndicator = value;
             }
             get
             {
-                return partyIndicator;
+                return mapState.PartyIndicator;
             }
+        }
+
+        public InteractMode MapMode
+        {
+            set
+            {
+                Static.WindowStates.MapMode = value;
+            }
+            get
+            {
+                return Static.WindowStates.MapMode;
+            }
+        }
+
+        public void OnWindowStateChanged(object sender, EventArgs e)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MapMode"));
         }
     }
 }

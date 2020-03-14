@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -24,7 +25,7 @@ namespace ChultMapkeeper
 
         public MainWindow()
         {
-            mainWindowVM = Static.Serializer.LoadMap();
+            mainWindowVM = new ViewModel.MainWindowVM(Static.Serializer.LoadMap());
             this.DataContext = mainWindowVM;
 
             InitializeComponent();
@@ -35,7 +36,7 @@ namespace ChultMapkeeper
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Static.Serializer.SaveMap(mainWindowVM);
+            Static.Serializer.SaveMap(mainWindowVM.MapState);
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)

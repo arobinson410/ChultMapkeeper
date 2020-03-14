@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace ChultMapkeeper
@@ -18,8 +19,10 @@ namespace ChultMapkeeper
         private bool drag = false;
         private Point startPoint;
 
+        private static BitmapImage warrior = new BitmapImage(new Uri($"pack://application:,,,/Pictures/warrior.png"));
+
         [NonSerialized]
-        public Rectangle r = new Rectangle() { Width = 45, Height = 45, Fill = Brushes.Blue, HorizontalAlignment = HorizontalAlignment.Stretch };
+        public Rectangle r = new Rectangle() { Width = 55, Height = 55, Fill = new ImageBrush() { ImageSource = warrior }, HorizontalAlignment = HorizontalAlignment.Stretch };
 
         public double top, left;
 
@@ -36,7 +39,7 @@ namespace ChultMapkeeper
         public void onDeserialized(StreamingContext context)
         {
             Static.WindowStates.WindowStateChanged += OnWindowStateChanged;
-            r = new Rectangle() { Width = 45, Height = 45, Fill = Brushes.Blue, HorizontalAlignment = HorizontalAlignment.Stretch };
+            r = new Rectangle() { Width = 55, Height = 55, Fill = new ImageBrush() { ImageSource = warrior }, HorizontalAlignment = HorizontalAlignment.Stretch };
             Canvas.SetTop(r, top);
             Canvas.SetLeft(r, left);
         }
@@ -93,6 +96,29 @@ namespace ChultMapkeeper
             top1 = top - top % 33.375 + 5;
 
             return new double[2] { left1, top1 };
+            //return testNearestHex(left, top);
+        }
+
+        public double[] testNearestHex(double left, double top)
+        {
+            double a = 33;
+            double b = 37.5;
+            double c = 21.65;
+
+            int row = (int)(top / b);
+            int column = (int)(left / (a + c));
+
+            double dy = left - row * b;
+            double dx = top - column * (a + c);
+
+            if (((row ^ column) & 1) == 0)
+                dy = b - dy;
+            int right = dy * (a - c) < b * (dx - c) ? 1 : 0;
+
+            row += (column ^ row ^ right) & 1;
+            column += right;
+
+            return new double[] { column * 57.5 , row * 33.375};
         }
 
         public void OnWindowStateChanged(object sender, EventArgs e)

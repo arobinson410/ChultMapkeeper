@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -58,9 +61,11 @@
     <Compile Include="Hexagon.cs" />
     <Compile Include="HexCanvas.cs" />
     <Compile Include="Interfaces\IMonitorWindowState.cs" />
+    <Compile Include="MapState.cs" />
     <Compile Include="PartyIndicator.cs" />
     <Compile Include="Static\Serializer.cs" />
     <Compile Include="Static\WindowStates.cs" />
+    <Compile Include="ValueConverters\ToolbarWindowState.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ZoomBorder.cs" />
     <Page Include="MainWindow.xaml">
@@ -105,6 +110,17 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Pictures\Chult.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\drag.png" />
+    <Resource Include="Pictures\hexagon.png" />
+    <Resource Include="Pictures\warrior.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
