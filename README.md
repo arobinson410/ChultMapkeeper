@@ -1,6 +1,8 @@
 <h1> ChultMapkeeper </h1>
 <h3> An unfficial tool for Dungeon Masters running the Tomb of Annihilation hex crawl. </h3>
 <p> As a new DM and avid programmer, I wanted to bring my game of Tomb of Annihilation into the 21st century and use visual aids dispalyed on a television. To my surprise, there was not a single mapping tool for the hex crawl, so I created my own.</p>
+<h2>Download Binaries</h2>
+<a href="https://github.com/arobinson410/ChultMapkeeper/releases/tag/1.0.0-alpha">Link to 1.0.0-alpha release</a>
 <h2>Requirements</h2>
 <ul>
   <li>.NET Framework 4.7.2</li>
