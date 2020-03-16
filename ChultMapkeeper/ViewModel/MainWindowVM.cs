@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace ChultMapkeeper.ViewModel
 {
@@ -11,12 +13,14 @@ namespace ChultMapkeeper.ViewModel
     public class MainWindowVM: Interfaces.IMonitorWindowState, INotifyPropertyChanged
     {
         private MapState mapState;
+        private Point currMousePos;
 
         [field: NonSerialized()]
         public event PropertyChangedEventHandler PropertyChanged;
 
         public MainWindowVM(MapState m)
         {
+            currMousePos = new Point(0, 0);
             Static.WindowStates.WindowStateChanged += OnWindowStateChanged;
             mapState = m;
         }
@@ -62,6 +66,34 @@ namespace ChultMapkeeper.ViewModel
             get
             {
                 return Static.WindowStates.MapMode;
+            }
+        }
+
+        public double MouseX
+        {
+            set
+            {
+                currMousePos.X = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MouseX"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HexQ"));
+            }
+            get
+            {
+                return currMousePos.X;
+            }
+        }
+
+        public double MouseY
+        {
+            set
+            {
+                currMousePos.Y = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MouseY"));
+
+            }
+            get
+            {
+                return currMousePos.Y;
             }
         }
 

@@ -14,6 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition/>
+            <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
         <ToolBar>
             <RadioButton Name="MoveMapMode" GroupName="InteractMode" IsChecked="{Binding MapMode, Converter={StaticResource ToolbarWindowState}, ConverterParameter={x:Static local:InteractMode.MoveMapMode}}" ToolTip="Move Map">
@@ -30,9 +31,13 @@
             <Viewbox>
                 <Grid>
                     <Image Source="Pictures/Chult.jpg" Width="4476" Height="6000" Stretch="Fill"/>
-                    <local:HexCanvas HexagonList="{Binding HexagonList}"/>
+                    <local:HexCanvas HexagonList="{Binding HexagonList}" MouseMove="HexCanvas_MouseMove"/>
                 </Grid>
             </Viewbox>
         </local:ZoomBorder>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right">
+            <TextBlock Text="{Binding MouseX, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" Padding="0 0 10 0"/>
+            <TextBlock Text="{Binding MouseY, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+        </StackPanel>
     </Grid>
 </Window>

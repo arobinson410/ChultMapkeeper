@@ -31,15 +31,11 @@ namespace ChultMapkeeper
 
             foreach (Hexagon h in HexagonList)
             {
-                if (!h.Hidden)
-                {
-                    base.Children.Add(h.Path);
-                }
+                base.Children.Add(h.Path);
             }
 
             base.Children.Add(((ViewModel.MainWindowVM)base.DataContext).PartyIndicator.r);
         }
-        
         
         protected override void OnRender(DrawingContext dc)
         {
@@ -48,10 +44,14 @@ namespace ChultMapkeeper
             
                 foreach (Hexagon h in HexagonList)
                 {
-                    if (!h.Hidden)
-                    {
-                        base.Children.Add(h.Path);
-                    }
+                    base.Children.Add(h.Path);
+                }
+
+
+                foreach(KeyValuePair<int, PointOfInterest> p in ((ViewModel.MainWindowVM)base.DataContext).MapState.PointsOfInterest)
+                {
+                    foreach(FrameworkElement f in p.Value.ElementList)
+                        base.Children.Add(f);
                 }
 
                 base.Children.Add(((ViewModel.MainWindowVM)base.DataContext).PartyIndicator.r);

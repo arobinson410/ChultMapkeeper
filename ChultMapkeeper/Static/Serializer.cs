@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define SERIALIZE
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -24,7 +26,7 @@ namespace ChultMapkeeper.Static
             {
                 toReturn.CreateDefaultHexLayout();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 MessageBox.Show("Error Loading Saved Map. Your save file may be corrupted or out of date", "Error Loading", MessageBoxButton.OK, MessageBoxImage.Error);
                 Application.Current.Shutdown();
@@ -32,13 +34,14 @@ namespace ChultMapkeeper.Static
 
             return toReturn;
         }
-
+        
         public static void SaveMap(MapState map)
         {
+            #if SERIALIZE
             FileStream stream = File.Create("saved");
             var formatter = new BinaryFormatter();
             formatter.Serialize(stream, map);
+            #endif
         }
-
     }
 }

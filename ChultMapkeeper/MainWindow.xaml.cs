@@ -54,5 +54,12 @@ namespace ChultMapkeeper
                 Static.WindowStates.MapMode = InteractMode.RevealMode;
             }
         }
+
+        private void HexCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point p = Mouse.GetPosition(sender as HexCanvas);
+            mainWindowVM.MouseX = p.X;
+            mainWindowVM.MouseY = p.Y;
+        }
     }
 }

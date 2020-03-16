@@ -18,6 +18,8 @@ namespace ChultMapkeeper
     {
         private bool drag = false;
         private Point startPoint;
+        [NonSerialized]
+        private List<DependencyObject> hitResultsList = new List<DependencyObject>();
 
         private static BitmapImage warrior = new BitmapImage(new Uri($"pack://application:,,,/Pictures/warrior.png"));
 
@@ -43,7 +45,6 @@ namespace ChultMapkeeper
             Canvas.SetTop(r, top);
             Canvas.SetLeft(r, left);
         }
-
 
         private void rectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -74,51 +75,32 @@ namespace ChultMapkeeper
             Rectangle draggedRectangle = sender as Rectangle;
             Point newPoint = Mouse.GetPosition(((Rectangle)sender).Parent as HexCanvas);
 
-            double left = Canvas.GetLeft(draggedRectangle);
-            double top = Canvas.GetTop(draggedRectangle);
+            VisualTreeHelper.HitTest(((Rectangle)sender).Parent as HexCanvas, null, new HitTestResultCallback(MyHitTestResult), new PointHitTestParameters(newPoint));
 
-            double[] nearestPos = getNearestHexPos(left, top);
+            Path newHexagon = hitResultsList[0] as Path;
 
-            ((ViewModel.MainWindowVM)((HexCanvas)((Rectangle)sender).Parent).DataContext).PartyIndicator.left = nearestPos[0];
-            ((ViewModel.MainWindowVM)((HexCanvas)((Rectangle)sender).Parent).DataContext).PartyIndicator.top = nearestPos[1];
+            if (newHexagon != null)
+            {
+                Vector newPos = VisualTreeHelper.GetOffset(newHexagon);
 
-            Canvas.SetLeft(draggedRectangle, nearestPos[0]);
-            Canvas.SetTop(draggedRectangle, nearestPos[1]);
+                ((ViewModel.MainWindowVM)((HexCanvas)((Rectangle)sender).Parent).DataContext).PartyIndicator.left = newPos.X;
+                ((ViewModel.MainWindowVM)((HexCanvas)((Rectangle)sender).Parent).DataContext).PartyIndicator.top = newPos.Y;
 
-            drag = false;
+                Canvas.SetLeft(draggedRectangle, newPos.X);
+                Canvas.SetTop(draggedRectangle, newPos.Y);
+
+                drag = false;
+            }
         }
 
-        public double[] getNearestHexPos(double left, double top)
+        public HitTestResultBehavior MyHitTestResult(HitTestResult result)
         {
-            double left1, top1;
+            hitResultsList.Clear();
+            // Add the hit test result to the list that will be processed after the enumeration.
+            hitResultsList.Add(result.VisualHit);
 
-            left1 = left - left % 57.5 + 0.5;
-            top1 = top - top % 33.375 + 5;
-
-            return new double[2] { left1, top1 };
-            //return testNearestHex(left, top);
-        }
-
-        public double[] testNearestHex(double left, double top)
-        {
-            double a = 33;
-            double b = 37.5;
-            double c = 21.65;
-
-            int row = (int)(top / b);
-            int column = (int)(left / (a + c));
-
-            double dy = left - row * b;
-            double dx = top - column * (a + c);
-
-            if (((row ^ column) & 1) == 0)
-                dy = b - dy;
-            int right = dy * (a - c) < b * (dx - c) ? 1 : 0;
-
-            row += (column ^ row ^ right) & 1;
-            column += right;
-
-            return new double[] { column * 57.5 , row * 33.375};
+            // Set the behavior to return visuals at all z-order levels.
+            return HitTestResultBehavior.Continue;
         }
 
         public void OnWindowStateChanged(object sender, EventArgs e)
@@ -139,11 +121,6 @@ namespace ChultMapkeeper
                     r.MouseUp -= rectangle_MouseUp;
                     break;
             }
-        }
-
-        public static double DistanceTo(double aX, double aY, double bX, double bY)
-        {
-            return Math.Pow(Math.Pow((aX - bX), 2) + Math.Pow((aY - bY), 2), 0.5);
         }
     }
 }

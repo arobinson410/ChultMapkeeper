@@ -14,19 +14,43 @@ namespace ChultMapkeeper
     {
         private List<Hexagon> hexagons;
         private PartyIndicator partyIndicator;
+        private Dictionary<int, PointOfInterest> pointsOfInterest;
 
         public MapState()
         {
             hexagons = new List<Hexagon>();
             partyIndicator = new PartyIndicator();
+            pointsOfInterest = new Dictionary<int, PointOfInterest>(Static.DefaultMapState.PointsOfInterest);
         }
 
         public void CreateDefaultHexLayout()
         {
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ChultMapkeeper.Default.saved");
-            var formatter = new BinaryFormatter();
-            hexagons = formatter.Deserialize(stream) as List<Hexagon>;
-            stream.Close();
+            for (int i = 0; i < 36; i++)
+            {
+                for (int j = 0; j < 85; j++)
+                {
+                    hexagons.Add(new Hexagon(216 + (115 * i), 162 + (66.75 * j)) { HexNumber = (int)(2 * (i + 1) * 100 + j + 1), Hidden = true });
+                }
+            }
+
+            for (int i = 0; i < 36; i++)
+            {
+                for (int j = 0; j < 85; j++)
+                {
+                    hexagons.Add(new Hexagon(158.5 + (115 * i), 195.375 + (66.75 * j)) { HexNumber = (int)(200 * i + j + 101), Hidden = true });
+                }
+            }
+
+            foreach (int n in Static.DefaultMapState.defaultHexes)
+            {
+                foreach(Hexagon h in hexagons)
+                {
+                    if(h.HexNumber == n)
+                    {
+                        h.Hidden = false;
+                    }
+                }
+            }
         }
 
         public List<Hexagon> Hexagons
@@ -50,6 +74,18 @@ namespace ChultMapkeeper
             get
             {
                 return partyIndicator;
+            }
+        }
+
+        public Dictionary<int, PointOfInterest> PointsOfInterest
+        {
+            set
+            {
+                pointsOfInterest = value;
+            }
+            get
+            {
+                return pointsOfInterest;
             }
         }
 

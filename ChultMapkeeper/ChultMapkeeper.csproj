@@ -63,6 +63,8 @@
     <Compile Include="Interfaces\IMonitorWindowState.cs" />
     <Compile Include="MapState.cs" />
     <Compile Include="PartyIndicator.cs" />
+    <Compile Include="PointOfInterest.cs" />
+    <Compile Include="Static\DefaultMapState.cs" />
     <Compile Include="Static\Serializer.cs" />
     <Compile Include="Static\WindowStates.cs" />
     <Compile Include="ValueConverters\ToolbarWindowState.cs" />
@@ -115,9 +117,6 @@
     <Resource Include="Pictures\drag.png" />
     <Resource Include="Pictures\hexagon.png" />
     <Resource Include="Pictures\warrior.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pictures\icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />

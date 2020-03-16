@@ -26,6 +26,7 @@ namespace ChultMapkeeper
 
         private bool hidden;
         private double leftPos, topPos;
+        private int hexNumber = 0;
 
         public Hexagon(double leftPos, double topPos)
         {
@@ -40,6 +41,7 @@ namespace ChultMapkeeper
         public void onDeserialized(StreamingContext context)
         {
             Path = AddHex(leftPos, topPos);
+            Hidden = hidden;
         }
 
         public Path AddHex(double leftPos, double topPos)
@@ -56,21 +58,36 @@ namespace ChultMapkeeper
 
         public void OnClick(object sender, MouseButtonEventArgs e)
         {
-            UIElement element = sender as UIElement;
-
             if (Static.WindowStates.MapMode == InteractMode.RevealMode)
             {
-                if (element.Opacity == 1)
+                Hidden = !Hidden;
+
+                if (Static.DefaultMapState.PointsOfInterest.ContainsKey(HexNumber))
                 {
-                    element.Opacity = 0;
-                    hidden = true;
-                }
-                else
-                {
-                    element.Opacity = 1;
-                    hidden = false;
+                    ((ViewModel.MainWindowVM)Application.Current.MainWindow.DataContext).MapState.PointsOfInterest[HexNumber].Hidden = !Hidden;
                 }
             }
+        }
+
+        public static Point HexNumberToPos(int hexNumber)
+        {
+            Point toReturn;
+            int i, j;
+
+            if((hexNumber/100)%2 == 0)
+            {
+                i = hexNumber / 200 - 1;
+                j = hexNumber - (200 * (i + 1)) - 1;
+                toReturn = new Point(216 + (115 * i), 162 + (66.75 * j));
+            }
+            else
+            {
+                i = hexNumber / 200;
+                j = hexNumber - (200 * i) - 101;
+                toReturn = new Point(158.5 + (115 * i), 195.375 + (66.75 * j));
+            }
+
+            return toReturn;
         }
 
         public bool Hidden
@@ -78,10 +95,23 @@ namespace ChultMapkeeper
             set
             {
                 hidden = value;
+                Path.Opacity = hidden ? 0 : 1;
             }
             get
             {
                 return hidden;
+            }
+        }
+
+        public int HexNumber
+        {
+            set
+            {
+                hexNumber = value;
+            }
+            get
+            {
+                return hexNumber;
             }
         }
     }
