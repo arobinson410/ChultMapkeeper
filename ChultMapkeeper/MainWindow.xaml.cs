@@ -61,5 +61,14 @@ namespace ChultMapkeeper
             mainWindowVM.MouseX = p.X;
             mainWindowVM.MouseY = p.Y;
         }
+
+        private void POIEdit_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.EditPOIVM editPOIVM = new ViewModel.EditPOIVM(mainWindowVM.MapState);
+            EditPOI editPOI = new EditPOI();
+            editPOI.DataContext = editPOIVM;
+            editPOI.Show();
+        }
     }
+
 }

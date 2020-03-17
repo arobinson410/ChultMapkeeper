@@ -39,14 +39,12 @@ namespace ChultMapkeeper
         
         protected override void OnRender(DrawingContext dc)
         {
-            base.OnRender(dc);
             if (firstLoad) {
             
                 foreach (Hexagon h in HexagonList)
                 {
                     base.Children.Add(h.Path);
                 }
-
 
                 foreach(KeyValuePair<int, PointOfInterest> p in ((ViewModel.MainWindowVM)base.DataContext).MapState.PointsOfInterest)
                 {

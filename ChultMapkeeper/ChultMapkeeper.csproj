@@ -58,6 +58,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EditPOI.xaml.cs">
+      <DependentUpon>EditPOI.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Hexagon.cs" />
     <Compile Include="HexCanvas.cs" />
     <Compile Include="Interfaces\IMonitorWindowState.cs" />
@@ -68,8 +71,13 @@
     <Compile Include="Static\Serializer.cs" />
     <Compile Include="Static\WindowStates.cs" />
     <Compile Include="ValueConverters\ToolbarWindowState.cs" />
+    <Compile Include="ViewModel\EditPOIVM.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ZoomBorder.cs" />
+    <Page Include="EditPOI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

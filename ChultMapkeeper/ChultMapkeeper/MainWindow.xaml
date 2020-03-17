@@ -1,0 +1,38 @@
+﻿<Window x:Class="ChultMapkeeper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChultMapkeeper"
+        xmlns:static="clr-namespace:ChultMapkeeper.Static"
+        mc:Ignorable="d"
+        Title="Chult Mapkeeper" Height="720" Width="1080" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Window.Resources>
+        <local:WindowStateConverter x:Key="WindowStateConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ToolBar Grid.Row="0">
+            <RadioButton Name="MoveMapMode" GroupName="Controls" IsChecked="{Binding Path=MapMode, Converter={StaticResource WindowStateConverter}, ConverterParameter=MoveMapMode, Mode=TwoWay}">
+                <Image Source="Pictures/drag.png"/>
+            </RadioButton>
+            <RadioButton Name="RevealMode" GroupName="Controls" IsChecked="{Binding Path=MapMode, Converter={StaticResource WindowStateConverter}, ConverterParameter=MoveMapMode, Mode=TwoWay}">
+                <Image Source="Pictures/hexagon.png"/>
+            </RadioButton>
+            <RadioButton Name="MoveParty" GroupName="Controls" IsChecked="{Binding Path=MapMode, Converter={StaticResource WindowStateConverter}, ConverterParameter=MoveMapMode, Mode=TwoWay}">
+                <Image Source="Pictures/warrior.png"/>
+            </RadioButton>
+        </ToolBar>
+        <local:ZoomBorder x:Name="border" ClipToBounds="True" Background="Gray" Grid.Row="1">
+            <Viewbox>
+                <Grid>
+                    <Image Source="Pictures/Chult.jpg" Width="4476" Height="6000" Stretch="Fill"/>
+                    <local:HexCanvas HexagonList="{Binding HexagonList}"/>
+                </Grid>
+            </Viewbox>
+        </local:ZoomBorder>
+    </Grid>
+</Window>

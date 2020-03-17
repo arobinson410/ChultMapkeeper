@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,7 +25,7 @@ namespace ChultMapkeeper
     }
 
     [Serializable]
-    public class PointOfInterest
+    public class PointOfInterest : INotifyPropertyChanged
     {
         private static FontFamily textFont = new FontFamily("Elephant");
 
@@ -32,9 +34,12 @@ namespace ChultMapkeeper
         private bool hidden;
         private double offsetX, offsetY, textOffsetX, textOffsetY;
         private POIType pointType;
+        private Point pixelLoc;
 
         [NonSerialized]
         private List<System.Windows.FrameworkElement> l = new List<System.Windows.FrameworkElement>();
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public PointOfInterest(string name, POIType t, int hexNum, double offsetX = 0, double offsetY = 0, double textOffsetX = 0, double textOffsetY = 0)
         {
@@ -47,14 +52,14 @@ namespace ChultMapkeeper
             this.textOffsetX = textOffsetX;
             this.textOffsetY = textOffsetY;
 
+            pixelLoc = Hexagon.HexNumberToPos(hexNum);
+
             CreateElementList();
         }
 
         private void CreateElementList()
         {
             l.Clear();
-
-            Point pixelLoc = Hexagon.HexNumberToPos(hexNum);
 
             TextBlock t = new TextBlock() { Text = name, Visibility = Visibility.Collapsed, FontSize = 40, FontFamily=textFont};
             Canvas.SetLeft(t, pixelLoc.X + textOffsetX);
@@ -63,6 +68,17 @@ namespace ChultMapkeeper
 
             switch (pointType)
             {
+                case POIType.City:
+                    Ellipse city1 = new Ellipse() { Width = 42, Height = 42, Fill = Brushes.White, Visibility = Visibility.Collapsed };
+                    Canvas.SetLeft(city1, pixelLoc.X + offsetX - 6);
+                    Canvas.SetTop(city1, pixelLoc.Y - offsetY - 6);
+                    Ellipse city2 = new Ellipse() { Width = 30, Height = 30, Fill = Brushes.Black, Visibility = Visibility.Collapsed };
+                    Canvas.SetLeft(city2, pixelLoc.X + offsetX);
+                    Canvas.SetTop(city2, pixelLoc.Y - offsetY);
+                    l.Add(city1);
+                    l.Add(city2);
+                    break;
+
                 case POIType.Fort:
                     Rectangle fort1 = new Rectangle() { Width = 36, Height = 36, Fill = Brushes.Black, Visibility = Visibility.Collapsed };
                     Canvas.SetLeft(fort1, pixelLoc.X + offsetX - 6);
@@ -136,27 +152,88 @@ namespace ChultMapkeeper
             }
         }
 
+        public string Name
+        {
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
+            }
+            get
+            {
+                return Regex.Replace(name, @"\s+", " ").Trim();
+            }
+        }
+
         public double OffsetX
         {
             set
             {
                 offsetX = value;
+
+                for(int i = 1; i < l.Count; i++)
+                {
+                    Canvas.SetLeft(l[i], pixelLoc.X + offsetX);
+                }
+
+                OnPropertyChanged("OffsetX");
             }
             get
             {
                 return offsetX;
             }
         }
+
         public double OffsetY
         {
             set
             {
                 offsetY = value;
+
+                for (int i = 1; i < l.Count; i++)
+                {
+                    Canvas.SetTop(l[i], pixelLoc.Y - offsetY);
+                }
+
+                OnPropertyChanged("OffsetY");
             }
             get
             {
                 return offsetY;
             }
+        }
+
+        public double TextOffsetX
+        {
+            set
+            {
+                textOffsetX = value;
+                Canvas.SetLeft(l[0], pixelLoc.X + textOffsetX);
+                OnPropertyChanged("TextOffsetX");
+            }
+            get
+            {
+                return textOffsetX;
+            }
+        }
+
+        public double TextOffsetY
+        {
+            set
+            {
+                textOffsetY = value;
+                Canvas.SetTop(l[0], pixelLoc.Y - textOffsetY);
+                OnPropertyChanged("TextOffsetY");
+            }
+            get
+            {
+                return textOffsetY;
+            }
+        }
+
+        private void OnPropertyChanged(string s)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(s));
         }
     }
 }

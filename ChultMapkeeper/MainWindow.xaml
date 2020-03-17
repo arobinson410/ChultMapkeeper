@@ -16,17 +16,24 @@
             <RowDefinition/>
             <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
-        <ToolBar>
-            <RadioButton Name="MoveMapMode" GroupName="InteractMode" IsChecked="{Binding MapMode, Converter={StaticResource ToolbarWindowState}, ConverterParameter={x:Static local:InteractMode.MoveMapMode}}" ToolTip="Move Map">
-                <Image Source="Pictures/drag.png"/>
-            </RadioButton>
-            <RadioButton Name="RevealMode" GroupName="InteractMode" IsChecked="{Binding MapMode, Converter={StaticResource ToolbarWindowState}, ConverterParameter={x:Static local:InteractMode.RevealMode}}" ToolTip="Reveal Hex">
-                <Image Source="Pictures/hexagon.png"/>
-            </RadioButton>
-            <RadioButton Name="MoveParty" GroupName="InteractMode" IsChecked="{Binding MapMode, Converter={StaticResource ToolbarWindowState}, ConverterParameter={x:Static local:InteractMode.MoveParty}}" ToolTip="Move Party Indicator">
-                <Image Source="Pictures/warrior.png"/>
-            </RadioButton>
-        </ToolBar>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <ToolBar>
+                <RadioButton Name="MoveMapMode" GroupName="InteractMode" IsChecked="{Binding MapMode, Converter={StaticResource ToolbarWindowState}, ConverterParameter={x:Static local:InteractMode.MoveMapMode}}" ToolTip="Move Map">
+                    <Image Source="Pictures/drag.png"/>
+                </RadioButton>
+                <RadioButton Name="RevealMode" GroupName="InteractMode" IsChecked="{Binding MapMode, Converter={StaticResource ToolbarWindowState}, ConverterParameter={x:Static local:InteractMode.RevealMode}}" ToolTip="Reveal Hex">
+                    <Image Source="Pictures/hexagon.png"/>
+                </RadioButton>
+                <RadioButton Name="MoveParty" GroupName="InteractMode" IsChecked="{Binding MapMode, Converter={StaticResource ToolbarWindowState}, ConverterParameter={x:Static local:InteractMode.MoveParty}}" ToolTip="Move Party Indicator">
+                    <Image Source="Pictures/warrior.png"/>
+                </RadioButton>
+            </ToolBar>
+            <ToolBar>
+                <Button Click="POIEdit_Click">
+                    EditPOIs
+                </Button>
+            </ToolBar>
+        </StackPanel>
         <local:ZoomBorder x:Name="border" ClipToBounds="True" Background="Gray" Grid.Row="1">
             <Viewbox>
                 <Grid>
