@@ -38,7 +38,7 @@
             <Viewbox>
                 <Grid>
                     <Image Source="Pictures/Chult.jpg" Width="4476" Height="6000" Stretch="Fill"/>
-                    <local:HexCanvas HexagonList="{Binding HexagonList}" MouseMove="HexCanvas_MouseMove"/>
+                    <local:HexCanvas HexagonList="{Binding Path=HexagonList}" PartyIndicator="{Binding Path=PartyIndicator}" MouseMove="HexCanvas_MouseMove"/>
                 </Grid>
             </Viewbox>
         </local:ZoomBorder>

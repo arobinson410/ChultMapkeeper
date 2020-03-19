@@ -114,5 +114,17 @@ namespace ChultMapkeeper
                 return hexNumber;
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            Hexagon toComp = obj as Hexagon;
+
+            if(toComp != null)
+            {
+                return this.hidden == toComp.hidden && this.hexNumber == toComp.hexNumber && this.leftPos == toComp.leftPos && this.topPos == toComp.topPos;
+            }
+
+            return false;
+        }
     }
 }

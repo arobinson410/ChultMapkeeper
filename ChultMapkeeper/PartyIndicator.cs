@@ -24,7 +24,7 @@ namespace ChultMapkeeper
         private static BitmapImage warrior = new BitmapImage(new Uri($"pack://application:,,,/Pictures/warrior.png"));
 
         [NonSerialized]
-        public Rectangle r = new Rectangle() { Width = 55, Height = 55, Fill = new ImageBrush() { ImageSource = warrior }, HorizontalAlignment = HorizontalAlignment.Stretch };
+        public Rectangle renderable = new Rectangle() { Width = 55, Height = 55, Fill = new ImageBrush() { ImageSource = warrior }, HorizontalAlignment = HorizontalAlignment.Stretch };
 
         public double top, left;
 
@@ -33,17 +33,18 @@ namespace ChultMapkeeper
             Static.WindowStates.WindowStateChanged += OnWindowStateChanged;
             top = 1473.5;
             left = 2473;
-            Canvas.SetTop(r, top);
-            Canvas.SetLeft(r, left);
+            Canvas.SetTop(renderable, top);
+            Canvas.SetLeft(renderable, left);
         }
 
         [OnDeserialized()]
         public void onDeserialized(StreamingContext context)
         {
+            hitResultsList = new List<DependencyObject>();
             Static.WindowStates.WindowStateChanged += OnWindowStateChanged;
-            r = new Rectangle() { Width = 55, Height = 55, Fill = new ImageBrush() { ImageSource = warrior }, HorizontalAlignment = HorizontalAlignment.Stretch };
-            Canvas.SetTop(r, top);
-            Canvas.SetLeft(r, left);
+            renderable = new Rectangle() { Width = 55, Height = 55, Fill = new ImageBrush() { ImageSource = warrior }, HorizontalAlignment = HorizontalAlignment.Stretch };
+            Canvas.SetTop(renderable, top);
+            Canvas.SetLeft(renderable, left);
         }
 
         private void rectangle_MouseDown(object sender, MouseButtonEventArgs e)
@@ -110,15 +111,15 @@ namespace ChultMapkeeper
             switch (state)
             {
                 case InteractMode.MoveParty:
-                    r.MouseDown += rectangle_MouseDown;
-                    r.MouseMove += rectangle_MouseMove;
-                    r.MouseUp += rectangle_MouseUp;
+                    renderable.MouseDown += rectangle_MouseDown;
+                    renderable.MouseMove += rectangle_MouseMove;
+                    renderable.MouseUp += rectangle_MouseUp;
                     break;
                 case InteractMode.RevealMode:
                 case InteractMode.MoveMapMode:
-                    r.MouseDown -= rectangle_MouseDown;
-                    r.MouseMove -= rectangle_MouseMove;
-                    r.MouseUp -= rectangle_MouseUp;
+                    renderable.MouseDown -= rectangle_MouseDown;
+                    renderable.MouseMove -= rectangle_MouseMove;
+                    renderable.MouseUp -= rectangle_MouseUp;
                     break;
             }
         }

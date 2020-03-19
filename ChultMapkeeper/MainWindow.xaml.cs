@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -29,6 +30,13 @@ namespace ChultMapkeeper
             this.DataContext = mainWindowVM;
 
             InitializeComponent();
+
+            List<Hexagon> l = mainWindowVM.HexagonList;
+            l[20].HexNumber = 10000;
+            l.Add(new Hexagon(9000, 9000));
+
+            mainWindowVM.HexagonList = l;
+
 
             this.KeyDown += MainWindow_KeyDown;
             this.Closing += MainWindow_Closing;

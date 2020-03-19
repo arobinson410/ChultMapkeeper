@@ -76,7 +76,6 @@ namespace ChultMapkeeper
                 return partyIndicator;
             }
         }
-
         public Dictionary<int, PointOfInterest> PointsOfInterest
         {
             set

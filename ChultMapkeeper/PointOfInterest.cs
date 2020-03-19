@@ -37,12 +37,14 @@ namespace ChultMapkeeper
         private Point pixelLoc;
 
         [NonSerialized]
-        private List<System.Windows.FrameworkElement> l = new List<System.Windows.FrameworkElement>();
+        private List<System.Windows.FrameworkElement> l;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public PointOfInterest(string name, POIType t, int hexNum, double offsetX = 0, double offsetY = 0, double textOffsetX = 0, double textOffsetY = 0)
         {
+            l = new List<System.Windows.FrameworkElement>();
+
             this.name = name;
             this.pointType = t;
             this.hexNum = hexNum;
@@ -59,7 +61,10 @@ namespace ChultMapkeeper
 
         private void CreateElementList()
         {
-            l.Clear();
+            if (l is null)
+                l = new List<FrameworkElement>();
+            else
+                l.Clear();
 
             TextBlock t = new TextBlock() { Text = name, Visibility = Visibility.Collapsed, FontSize = 40, FontFamily=textFont};
             Canvas.SetLeft(t, pixelLoc.X + textOffsetX);
