@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 
 namespace ChultMapkeeper
@@ -27,7 +28,7 @@ namespace ChultMapkeeper
     [Serializable]
     public class PointOfInterest : INotifyPropertyChanged
     {
-        private static FontFamily textFont = new FontFamily("Elephant");
+        private static FontFamily textFont = new FontFamily(new Uri("pack://application:,,,/"), "Fonts/#TeX Gyre Bonum");
 
         private string name = "";
         private int hexNum;
@@ -66,7 +67,8 @@ namespace ChultMapkeeper
             else
                 l.Clear();
 
-            TextBlock t = new TextBlock() { Text = name, Visibility = Visibility.Collapsed, FontSize = 40, FontFamily=textFont};
+            TextBlock t = new TextBlock() { Text = name, Visibility = Visibility.Collapsed, FontSize = 40, FontFamily = textFont, FontWeight = FontWeights.Bold};
+
             Canvas.SetLeft(t, pixelLoc.X + textOffsetX);
             Canvas.SetTop(t, pixelLoc.Y - textOffsetY);
             l.Add(t);
@@ -113,7 +115,7 @@ namespace ChultMapkeeper
 
                 case POIType.POI:
 
-                    TextBlock marker = new TextBlock() { Text = "X", Visibility = Visibility.Collapsed, FontSize = 40, FontFamily = textFont };
+                    TextBlock marker = new TextBlock() { Text = "X", Visibility = Visibility.Collapsed, FontSize = 40, FontFamily = textFont, FontWeight = FontWeights.Bold, };
                     Canvas.SetLeft(marker, pixelLoc.X + offsetX);
                     Canvas.SetTop(marker, pixelLoc.Y - offsetY);
                     l.Add(marker);
@@ -127,6 +129,28 @@ namespace ChultMapkeeper
         {
             CreateElementList();
             Hidden = hidden;
+        }
+
+        public bool OverrideHidden
+        {
+            set
+            {
+                if (value)
+                {
+                    foreach (FrameworkElement f in l)
+                    {
+                        f.Visibility = Visibility.Collapsed;
+                    }
+                }
+                else
+                {
+                    foreach (FrameworkElement f in l)
+                    {
+                        f.Visibility = hidden ? Visibility.Collapsed : Visibility.Visible;
+                    }
+                }
+                
+            }
         }
 
         public bool Hidden

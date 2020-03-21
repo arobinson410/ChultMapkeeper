@@ -54,15 +54,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="Windows\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="EditPOI.xaml.cs">
+    <Compile Include="Windows\EditPOI.xaml.cs">
       <DependentUpon>EditPOI.xaml</DependentUpon>
     </Compile>
     <Compile Include="Hexagon.cs" />
-    <Compile Include="HexCanvas.cs" />
+    <Compile Include="WPFElements\HexCanvas.cs" />
     <Compile Include="Interfaces\IMonitorWindowState.cs" />
     <Compile Include="MapState.cs" />
     <Compile Include="PartyIndicator.cs" />
@@ -73,8 +73,8 @@
     <Compile Include="ValueConverters\ToolbarWindowState.cs" />
     <Compile Include="ViewModel\EditPOIVM.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
-    <Compile Include="ZoomBorder.cs" />
-    <Page Include="EditPOI.xaml">
+    <Compile Include="WPFElements\ZoomBorder.cs" />
+    <Page Include="Windows\EditPOI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -82,7 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="Windows\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -110,6 +110,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Default\saved" />
+    <Resource Include="Fonts\texgyrebonum-italic.otf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

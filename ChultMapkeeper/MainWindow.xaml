@@ -32,13 +32,16 @@
                 <Button Click="POIEdit_Click">
                     EditPOIs
                 </Button>
+                <RadioButton Name="HidePOIs" IsChecked="{Binding HidePOIs}">
+                    HidePOIs
+                </RadioButton>
             </ToolBar>
         </StackPanel>
         <local:ZoomBorder x:Name="border" ClipToBounds="True" Background="Gray" Grid.Row="1">
             <Viewbox>
                 <Grid>
                     <Image Source="Pictures/Chult.jpg" Width="4476" Height="6000" Stretch="Fill"/>
-                    <local:HexCanvas HexagonList="{Binding Path=HexagonList}" PartyIndicator="{Binding Path=PartyIndicator}" MouseMove="HexCanvas_MouseMove"/>
+                    <local:HexCanvas HexagonList="{Binding Path=HexagonList}" PointsOfInterest="{Binding Path=PointsOfInterest}" PartyIndicator="{Binding Path=PartyIndicator}" MouseMove="HexCanvas_MouseMove"/>
                 </Grid>
             </Viewbox>
         </local:ZoomBorder>

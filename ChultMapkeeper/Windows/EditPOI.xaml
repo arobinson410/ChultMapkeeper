@@ -1,0 +1,42 @@
+﻿<Window x:Class="ChultMapkeeper.EditPOI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChultMapkeeper"
+        mc:Ignorable="d"
+        Title="EditPOI" Height="450" Width="200">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="5">
+            <ComboBox ItemsSource="{Binding Path=PointsOfInterest}" SelectedItem="{Binding SelectedPOI}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Value.Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                <Label Content="OffsetX" Margin="21 0 0 0"/>
+                <TextBox Text="{Binding SelectedPOI.Value.OffsetX}" Width="50"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                <Label Content="OffsetY" Margin="21 0 0 0"/>
+                <TextBox Text="{Binding Path=SelectedPOI.Value.OffsetY}" Width="50"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                <Label Content="TextOffsetX"/>
+                <TextBox Text="{Binding Path=SelectedPOI.Value.TextOffsetX}" Width="50"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="TextOffsetY"/>
+                <TextBox Text="{Binding Path=SelectedPOI.Value.TextOffsetY}" Width="50"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

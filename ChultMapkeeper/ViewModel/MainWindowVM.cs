@@ -15,6 +15,7 @@ namespace ChultMapkeeper.ViewModel
     {
         private MapState mapState;
         private Point currMousePos;
+        private bool overrideHidePOIs;
 
         [field: NonSerialized()]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -24,6 +25,7 @@ namespace ChultMapkeeper.ViewModel
             currMousePos = new Point(0, 0);
             Static.WindowStates.WindowStateChanged += OnWindowStateChanged;
             mapState = m;
+            overrideHidePOIs = false;
         }
 
         public MapState MapState
@@ -55,6 +57,18 @@ namespace ChultMapkeeper.ViewModel
             get
             {
                 return mapState.PartyIndicator;
+            }
+        }
+
+        public Dictionary<int, PointOfInterest> PointsOfInterest
+        {
+            set
+            {
+                mapState.PointsOfInterest = value;
+            }
+            get
+            {
+                return mapState.PointsOfInterest;
             }
         }
 
@@ -95,6 +109,22 @@ namespace ChultMapkeeper.ViewModel
             get
             {
                 return currMousePos.Y;
+            }
+        }
+
+        public bool HidePOIs
+        {
+            set
+            {
+                overrideHidePOIs = !overrideHidePOIs;
+                foreach(KeyValuePair<int, PointOfInterest> p in PointsOfInterest)
+                {
+                    p.Value.OverrideHidden = overrideHidePOIs;
+                }
+            }
+            get
+            {
+                return overrideHidePOIs;
             }
         }
 
